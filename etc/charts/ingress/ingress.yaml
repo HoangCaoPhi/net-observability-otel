@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: observability-ingress
+  namespace: otel-demo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: grafana.herond.local
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
+  - host: prometheus.herond.local
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: prometheus-demo-server
+            port:
+              number: 80
+  - host: alertmanager.herond.local
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: prometheus-demo-alertmanager
+            port:
+              number: 9093
+  - host: oncallexternal.herond.local
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: helm-testing-oncall-engine-external
+            port:
+              number: 8080

@@ -1,0 +1,23 @@
+services:
+  newsfeedapi:
+    image: localhost:5000/newsfeed-api
+    build:
+      context: .
+      dockerfile: src/NewsfeedAPI/Dockerfile
+    environment:
+       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector
+    networks:
+        - app
+
+  platformapi:
+    image: localhost:5000/platform-api
+    build:
+      context: .
+      dockerfile: src/PlatformAPI/Dockerfile
+    environment:
+       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector
+    networks:
+        - app
+networks:
+  app:
+    
